@@ -20,21 +20,7 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/images/*": [
-        "./public/images/*"
-      ],
-      "@/assets/*": [
-        "./src/assets/*"
-      ],
-      "@/shared/*": [
-        "./src/shared/*"
-      ]
-    }
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "src"
