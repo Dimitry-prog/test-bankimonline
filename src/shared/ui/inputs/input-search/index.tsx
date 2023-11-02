@@ -1,5 +1,5 @@
 import { ChangeEvent, InputHTMLAttributes } from 'react';
-import { cn } from '../../../libs/cn.tsx';
+import { cn } from '../../../libs/cn.ts';
 
 type InputSearchProps = {
   name?: string;
@@ -18,7 +18,7 @@ const InputSearch = ({ name, value, onChange, type = 'text', ...restProps }: Inp
         onChange={onChange}
         type={type}
         className={cn(
-          'w-full pr-6 pl-10 py-2 text-lg flex outline-none bg-base-inputs border border-base-stroke rounded-md placeholder:text-sm placeholder:text-text-disabled-text focus:border-text-primary'
+          'w-full pr-6 pl-10 py-2 text-lg flex outline-none bg-base-inputs border border-base-stroke rounded-md placeholder:text-sm placeholder:text-text-disabled-text focus:border-accent-primary'
         )}
         placeholder="Поиск.."
         {...restProps}

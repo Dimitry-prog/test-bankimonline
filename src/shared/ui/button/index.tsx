@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { cn } from '../../libs/cn.tsx';
+import { cn } from '../../libs/cn.ts';
 
 type ButtonProps = {
   type: 'button' | 'submit' | 'reset' | undefined;

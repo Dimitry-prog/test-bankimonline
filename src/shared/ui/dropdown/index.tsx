@@ -1,14 +1,19 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { cn } from '../../libs/cn.tsx';
+import { cn } from '../../libs/cn.ts';
 import InputSearch from '../inputs/input-search';
 
 type DropdownProps = {
-  options: string[];
+  options: {
+    id: number;
+    value: string;
+    label: string;
+  }[];
   label: string;
   placeholder: string;
+  isSearch?: boolean;
 };
 
-const Dropdown = ({ options, label, placeholder }: DropdownProps) => {
+const Dropdown = ({ options, label, placeholder, isSearch = false }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
   const [search, setSearch] = useState('');
@@ -31,7 +36,9 @@ const Dropdown = ({ options, label, placeholder }: DropdownProps) => {
     if (search === '') {
       setFilteredOption(options);
     } else {
-      const currentOption = options.filter((option) => option.includes(search));
+      const currentOption = options.filter((option) =>
+        option.label.toLowerCase().includes(search.toLowerCase())
+      );
       setFilteredOption(currentOption);
     }
   }, [search]);
@@ -52,19 +59,19 @@ const Dropdown = ({ options, label, placeholder }: DropdownProps) => {
         </button>
         {isOpen && (
           <div className="py-2 max-h-[200px] w-full flex flex-col rounded-lg border border-base-stroke bg-base-secondary shadow-md absolute top-16 overflow-hidden overflow-y-scroll z-10">
-            <InputSearch value={search} onChange={handleChange} />
+            {isSearch && <InputSearch value={search} onChange={handleChange} />}
             <ul>
               {filteredOption.map((option) => (
                 <li
-                  key={option}
-                  onClick={() => selectOption(option)}
+                  key={option.id}
+                  onClick={() => selectOption(option.label)}
                   className={cn(
                     'py-[10px] px-4 text-sm relative',
-                    selectedOption === option &&
+                    selectedOption === option.label &&
                       "before:content-[''] before:w-5 before:h-5 before:absolute before:right-4 before:top-3 before:bg-[url('/check.svg')]"
                   )}
                 >
-                  {option}
+                  {option.label}
                 </li>
               ))}
             </ul>

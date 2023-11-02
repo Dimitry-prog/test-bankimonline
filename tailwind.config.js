@@ -26,6 +26,7 @@ export default {
     fontFamily: {
       roboto: ['"Roboto"', 'sans-serif'],
       inter: ['"Inter"', 'sans-serif'],
+      arial: ['"Arial"', 'sans-serif'],
     },
     boxShadow: {
       md: '0px 8px 32px 0px rgba(0, 0, 0, 0.16);',
