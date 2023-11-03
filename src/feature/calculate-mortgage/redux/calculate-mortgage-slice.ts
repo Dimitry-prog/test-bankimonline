@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type CalculateMortgageState = {
+export type CalculateMortgageState = {
   price: string;
   initialFee: string;
   deadline: string;

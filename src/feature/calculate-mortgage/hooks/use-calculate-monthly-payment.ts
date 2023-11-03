@@ -4,14 +4,15 @@ import {
   MIN_PAYMENT_DEADLINE,
   NUMBER_OF_MONTHS_IN_YEAR,
 } from '../utils/constants.ts';
-import { formatStringToNumber } from '../../../shared/libs/format-string-to-number.ts';
 import { useAppDispatch, useAppSelector } from '../../../shared/store';
+import { formatStringToNumber } from '../../../shared/libs/format-string-to-number.ts';
+import { calculateMortgageActions } from '../redux/calculate-mortgage-slice.ts';
+import { useEffect } from 'react';
 
 export const useCalculateMonthlyPayment = () => {
   const price = useAppSelector((state) => state.calculateMortgage.price);
   const initialFee = useAppSelector((state) => state.calculateMortgage.initialFee);
   const deadline = useAppSelector((state) => state.calculateMortgage.deadline);
-  // const monthlyPayment = useAppSelector((state) => state.calculateMortgage.monthlyPayment);
   const dispatch = useAppDispatch();
 
   const credit = formatStringToNumber(price) - formatStringToNumber(initialFee);
@@ -19,8 +20,7 @@ export const useCalculateMonthlyPayment = () => {
 
   const newMonthlyPayment = (
     (credit * monthlyInterestRate) /
-    (1 -
-      Math.pow(1 + monthlyInterestRate, -formatStringToNumber(deadline) * NUMBER_OF_MONTHS_IN_YEAR))
+    (1 - Math.pow(1 + monthlyInterestRate, -deadline * NUMBER_OF_MONTHS_IN_YEAR))
   ).toFixed();
   // const deadlinePayment = Math.floor(
   //   Math.log(
@@ -37,12 +37,12 @@ export const useCalculateMonthlyPayment = () => {
     (1 - Math.pow(1 + monthlyInterestRate, -MAX_PAYMENT_DEADLINE))
   ).toFixed();
 
-  // useEffect(() => {
-  //   const field = {
-  //     monthlyPayment: newMonthlyPayment,
-  //   };
-  //   dispatch(calculateMortgageActions.updateState(field));
-  // }, [price, initialFee, deadline]);
+  useEffect(() => {
+    const field = {
+      monthlyPayment: newMonthlyPayment,
+    };
+    dispatch(calculateMortgageActions.updateState(field));
+  }, [price, initialFee, deadline]);
 
   // useEffect(() => {
   //   const field = {
