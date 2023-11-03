@@ -1,13 +1,11 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { cn } from '../../libs/cn.ts';
 import InputSearch from '../inputs/input-search';
+import { OptionType } from '../../types';
+import { useSearch } from '../../hooks/use-search.ts';
 
 type DropdownProps = {
-  options: {
-    id: number;
-    value: string;
-    label: string;
-  }[];
+  options: OptionType[];
   label: string;
   placeholder: string;
   isSearch?: boolean;
@@ -16,8 +14,7 @@ type DropdownProps = {
 const Dropdown = ({ options, label, placeholder, isSearch = false }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState('');
-  const [search, setSearch] = useState('');
-  const [filteredOption, setFilteredOption] = useState(options);
+  const { options: filteredOptions, onChange, search, setSearch } = useSearch({ options });
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -27,21 +24,6 @@ const Dropdown = ({ options, label, placeholder, isSearch = false }: DropdownPro
     setIsOpen(false);
     setSearch('');
   };
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  useEffect(() => {
-    if (search === '') {
-      setFilteredOption(options);
-    } else {
-      const currentOption = options.filter((option) =>
-        option.label.toLowerCase().includes(search.toLowerCase())
-      );
-      setFilteredOption(currentOption);
-    }
-  }, [search]);
 
   return (
     <div className="w-full flex flex-col gap-3">
@@ -59,9 +41,9 @@ const Dropdown = ({ options, label, placeholder, isSearch = false }: DropdownPro
         </button>
         {isOpen && (
           <div className="py-2 max-h-[200px] w-full flex flex-col rounded-lg border border-base-stroke bg-base-secondary shadow-md absolute top-16 overflow-hidden overflow-y-scroll z-10">
-            {isSearch && <InputSearch value={search} onChange={handleChange} />}
+            {isSearch && <InputSearch value={search} onChange={onChange} />}
             <ul>
-              {filteredOption.map((option) => (
+              {filteredOptions.map((option) => (
                 <li
                   key={option.id}
                   onClick={() => selectOption(option.label)}
