@@ -10,7 +10,7 @@ import InputRange from '../../../../shared/ui/inputs/input-range';
 import { useCalculateMortgage } from '../../hooks/use-calculate-mortgage.ts';
 import { useAppSelector } from '../../../../shared/store';
 import { useCalculateMonthlyPayment } from '../../hooks/use-calculate-monthly-payment.ts';
-import { Field, Form, Formik, FormikProps } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { mortgageSchema } from './validate';
 import Button from '../../../../shared/ui/button';
 import { formatNumber } from '../../../../shared/libs/format-number.ts';
@@ -28,17 +28,20 @@ const Mortgage = () => {
     localStorage.setItem('values', JSON.stringify(values));
   };
 
+  // @ts-ignore
+  // @ts-ignore
   return (
     <Formik
       initialValues={{ price, initialFee, deadline, monthlyPayment }}
       validationSchema={mortgageSchema}
       onSubmit={onSubmit}
     >
-      {(props: FormikProps<CalculateMortgageState>) => (
+      {() => (
         <Form>
           <div className="max-w-[1130px] w-full mx-auto px-5 md:px-[55px] flex flex-col gap-8">
             <div className="flex flex-col md:flex-row gap-8 md:gap-y-6 md:gap-x-16 md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6">
               <Field name="price">
+                {/*//@ts-ignore*/}
                 {({ field, meta }) => (
                   <InputClassic
                     name="price"
@@ -70,6 +73,7 @@ const Mortgage = () => {
             </div>
             <div className="flex flex-col md:flex-row gap-8 md:gap-y-6 md:gap-x-16 md:grid md:grid-cols-2 xl:grid-cols-3 xl:gap-x-6">
               <Field name="initialFee">
+                {/*//@ts-ignore*/}
                 {({ field, meta }) => (
                   <InputRange
                     name="initialFee"
@@ -122,6 +126,7 @@ const Mortgage = () => {
             gap-8 border-t border-base-stroke"
             >
               <Field name="deadline">
+                {/*//@ts-ignore*/}
                 {({ field, meta }) => (
                   <InputRange
                     name="deadline"
@@ -142,6 +147,7 @@ const Mortgage = () => {
                 )}
               </Field>
               <Field name="monthlyPayment">
+                {/*//@ts-ignore*/}
                 {({ field, meta }) => (
                   <InputRange
                     name="monthlyPayment"
